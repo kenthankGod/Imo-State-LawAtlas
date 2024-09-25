@@ -1,0 +1,477 @@
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  StyleSheet,
+  Dimensions,
+} from "react-native";
+import { useRouter } from "expo-router";
+import colors from "../constants/colors";
+
+const { width } = Dimensions.get("window");
+
+export default function Home() {
+  const router = useRouter();
+  return (
+    <View style={styles.container}>
+      <Text style={styles.welcomeText}>
+        Every law you need <Text style={styles.atlasText}>at one place</Text>
+      </Text>
+      <Text style={styles.browsingText}>
+        Sign in to see the laws of your state.
+      </Text>
+      {
+        <Image
+          source={require("../assets/images/logo.png")}
+          style={styles.welcomeImage}
+        />
+      }
+
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => router.push("/auth/Login")}
+      >
+        <Text style={styles.buttonText}>Sign In</Text>
+      </TouchableOpacity>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 20,
+    backgroundColor: "#FFFAF0",
+  },
+  welcomeImage: {
+    width: width * 0.95,
+    height: width * 0.7,
+    resizeMode: "contain",
+    marginBottom: 20,
+  },
+  welcomeText: {
+    fontSize: 25,
+    fontWeight: "bold",
+    // color: colors.text,
+    // width: "100%",
+  },
+  atlasText: {
+    
+  },
+  browsingText: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: colors.text,
+    width: "80%",
+  },
+  button: {
+    backgroundColor: "black",
+    paddingVertical: 18,
+    paddingHorizontal: 40,
+    borderRadius: 6,
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+    maxWidth: 400,
+    marginVertical: 30,
+    elevation: 2,
+  },
+  signupButton: {
+    backgroundColor: "transparent",
+    borderWidth: 2,
+    borderColor: "black",
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  signupButtonText: {
+    color: "black",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+});
+
+
+
+
+
+import { createContext, useContext, useEffect, useState } from "react";
+import { supabase } from "../lib/supabase";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+const AuthContext = createContext();
+
+export const AuthProvider = ({ children }) => {
+  const [session, setSession] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  const saveUserData = async (userData) => {
+    try {
+      await AsyncStorage.setItem("user_data", JSON.stringify(userData));
+      console.log("Saved User_data", userData);
+    } catch (e) {
+      console.error("Failed to save user data to AsyncStorage", e);
+    }
+  };
+
+  const loadUserData = async () => {
+    try {
+      const storedUserData = await AsyncStorage.getItem("user_data");
+      if (storedUserData) {
+        return JSON.parse(storedUserData);
+      }
+    } catch (e) {
+      console.error("Failed to load user data from AsyncStorage", e);
+    }
+    return null;
+  };
+
+  const logout = async () => {
+    setSession(null);
+    try {
+      await AsyncStorage.removeItem("user_data");
+    } catch (e) {
+      console.error("Failed to clear user data from AsyncStorage", e);
+    }
+  };
+
+  useEffect(() => {
+    const checkLogin = async () => {
+      // First, try to load from AsyncStorage
+      const storedUser = await loadUserData();
+      if (storedUser) {
+        setSession(storedUser);
+      } else {
+        // If not found, check Supabase
+        const { data, error } = await supabase.auth.getSession();
+        if (error) {
+          console.error("Failed to fetch session from Supabase:", error);
+        } else if (data.session) {
+          setSession(data.session);
+          saveUserData(data.session); // Save the session to AsyncStorage
+        } else {
+          console.log("No active session found");
+        }
+      }
+      setLoading(false); // Mark loading as complete
+    };
+
+    checkLogin();
+  }, []);
+
+  return (
+    <AuthContext.Provider value={{ session, loading, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
+export const useAuth = () => useContext(AuthContext);
+
+
+
+
+
+import { SplashScreen, Stack } from "expo-router";
+import { AuthProvider, useAuth } from "../context/AuthContext";
+import { useEffect } from "react";
+import { useFonts } from "expo-font";
+import { ActivityIndicator, View } from "react-native";
+
+SplashScreen.preventAutoHideAsync();
+
+export default function RootLayout() {
+  return (
+    <AuthProvider>
+      <MainContent />
+    </AuthProvider>
+  );
+}
+
+function MainContent() {
+  const { session, loading } = useAuth(); 
+  console.log("Session:", session);
+  console.log("Loading:", loading);
+
+  const [loaded, error] = useFonts({
+    "Poppins-Regular": require("../assets/fonts/Poppins-Regular.ttf"),
+  });
+
+  useEffect(() => {
+    if (loaded || error) {
+      SplashScreen.hideAsync();
+    }
+  }, [loaded, error]);
+
+  if (loading || (!loaded && !error)) {
+    // Show a loading indicator while checking session and loading fonts
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
+
+  return (
+    <Stack
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      {session ? (
+        <Stack.Screen name="auth/Login" />
+      ) : (
+        <Stack.Screen name="auth/Login" />
+      )}
+      <Stack.Screen name="auth/SignUp" />
+    </Stack>
+  );
+}
+\
+
+
+
+
+
+
+
+import { Link, Redirect, SplashScreen, Stack, useRouter } from "expo-router";
+import { AuthProvider, useAuth } from "../context/AuthContext";
+import { ActivityIndicator, View } from "react-native";
+import { useFonts } from "expo-font";
+import { useEffect } from "react";
+import { supabase } from "../lib/supabase";
+import { useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useIsMounted } from "../hooks/useIsMounted";
+
+
+// SplashScreen.preventAutoHideAsync();
+
+export default function RootLayout() {
+  return (
+    <AuthProvider>
+      <MainLayout />
+     </AuthProvider>
+  );
+}
+
+function MainLayout() {
+  const { setAuth } = useAuth();
+  const router = useRouter();
+  const [initializing, setInitializing] = useState(true);
+  const isMounted = useIsMounted(); // Use the custom hook
+
+  useEffect(() => {
+    const checkAuthStatus = async () => {
+      // Check if the user has seen the welcome screen
+      const hasSeenWelcome = await AsyncStorage.getItem("hasSeenWelcome");
+
+      supabase.auth.onAuthStateChange(async (_event, session) => {
+        if (isMounted) { // Ensure we navigate only when the component is mounted
+          if (session) {
+            setAuth(session?.user);
+            router.replace("/(tabs)");
+          } else {
+            setAuth(null);
+            if (hasSeenWelcome) {
+              router.replace("/auth/Login");
+            } else {
+              router.replace("/");
+              await AsyncStorage.setItem("hasSeenWelcome", "true");
+            }
+          }
+          setInitializing(false);
+        }
+      });
+    };
+
+    if (isMounted) {
+      checkAuthStatus();
+    }
+
+    // Cleanup listener on component unmount
+    return () => {
+      authListener?.unsubscribe();
+    };
+  }, [isMounted]);
+
+  if (initializing) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
+
+
+  if (initializing) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
+
+  return (
+    <Stack
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <Stack.Screen name="index" />
+      <Stack.Screen name="auth/Login" />
+      <Stack.Screen name="auth/SignUp" />
+    </Stack>
+  );
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import React from 'react';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
+
+const WelcomeScreen = () => {
+  return (
+    <View style={styles.container}>
+      {/* Top section */}
+      <View style={styles.topSection}>
+        <Text style={styles.title}>
+          Everything you need at one place
+        </Text>
+        <Text style={styles.subtitle}>
+          Ace your next exams with the least amount of time, effort and money spent.
+        </Text>
+      </View>
+
+      {/* Middle section - Image */}
+      <View style={styles.imageContainer}>
+        <Image
+          source={{ uri: 'https://via.placeholder.com/300' }}
+          style={styles.image}
+          resizeMode="contain"
+        />
+      </View>
+
+      {/* Bottom section */}
+      <View style={styles.bottomSection}>
+        {/* Page indicator */}
+        <View style={styles.pageIndicator}>
+          <View style={[styles.indicatorDot, styles.activeDot]} />
+          <View style={styles.indicatorDot} />
+          <View style={styles.indicatorDot} />
+        </View>
+
+        {/* Buttons and links */}
+        <TouchableOpacity style={styles.googleButton}>
+          <Text style={styles.googleButtonText}>
+            Connect with Google
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity>
+          <Text style={styles.emailSignupText}>
+            Sign up with Email
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity>
+          <Text style={styles.signinText}>
+            Already have an account? <Text style={styles.signinLink}>Sign in</Text>
+          </Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+};
+
+const styles = {
+  container: {
+    flex: 1,
+    backgroundColor: 'white',
+    padding: 24,
+    justifyContent: 'space-between',
+  },
+  topSection: {
+    marginTop: 48,
+  },
+  title: {
+    fontSize: 36,
+    fontWeight: 'bold',
+    marginBottom: 8,
+  },
+  subtitle: {
+    fontSize: 18,
+    color: 'gray',
+  },
+  imageContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  image: {
+    width: 320,
+    height: 320,
+  },
+  bottomSection: {
+    marginBottom: 32,
+  },
+  pageIndicator: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginBottom: 24,
+  },
+  indicatorDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: 'gray',
+    marginHorizontal: 4,
+  },
+  activeDot: {
+    backgroundColor: 'blue',
+  },
+  googleButton: {
+    backgroundColor: 'blue',
+    paddingVertical: 12,
+    borderRadius: 9999,
+    marginBottom: 16,
+  },
+  googleButtonText: {
+    color: 'white',
+    textAlign: 'center',
+    fontWeight: '600',
+  },
+  emailSignupText: {
+    color: 'blue',
+    textAlign: 'center',
+    fontWeight: '600',
+    marginBottom: 16,
+  },
+  signinText: {
+    color: 'gray',
+    textAlign: 'center',
+  },
+  signinLink: {
+    color: 'blue',
+    fontWeight: '600',
+  },
+};
+
+export default WelcomeScreen;

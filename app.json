@@ -1,0 +1,40 @@
+{
+  "expo": {
+    "name": "stateLaws",
+    "slug": "stateLaws",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "myapp",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#ffffff"
+      }
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-font",
+        {
+          "fonts": ["./assets/fonts/Poppins-Regular.ttf"]
+        }
+      ]
+    ],
+    "assetBundlePatterns": ["assets/fonts/*"],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
