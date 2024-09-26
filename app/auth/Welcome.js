@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { useRouter } from "expo-router";
 import Carousels from "../../components/Carousels";
+import { verticalScale, scale, moderateScale } from "react-native-size-matters";
 
 export default function Welcome() {
   const router = useRouter();
@@ -18,10 +19,10 @@ export default function Welcome() {
           />
         </View>
         <Text style={styles.title}>
-          Every state law you need {"\n"} at one place
+          All Imo Sate law you need {"\n"} at one place
         </Text>
         <Text style={styles.subtitle}>
-          Accessing your state laws {"\n"}so quick and easy.
+          Eastern Heartland.
         </Text>
       </View>
 
@@ -49,106 +50,55 @@ export default function Welcome() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
-    padding: 24,
-    justifyContent: "space-between",
+    backgroundColor: 'white',
+    padding: moderateScale(20), // Using moderateScale for padding
+    justifyContent: 'space-between',
   },
   topSection: {
-    marginTop: 20,
+    marginTop: verticalScale(20), // Vertical scaling for margin top
   },
   title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 8,
-    textAlign: "center",
+    fontSize: moderateScale(22), // Moderate scaling for font size
+    fontWeight: 'bold',
+    marginBottom: verticalScale(6), // Vertical scaling for margin bottom
+    textAlign: 'center',
   },
   subtitle: {
-    fontSize: 18,
-    color: "gray",
-    textAlign: "center",
+    fontSize: moderateScale(16), // Moderate scaling for subtitle font size
+    color: 'gray',
+    textAlign: 'center',
   },
   logoContainer: {
-    alignItems: "center",
+    alignItems: 'center',
   },
   logo: {
-    width: 80,
-    height: 80,
-    resizeMode: "contain",
-  },
-  carouselContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginVertical: 20,
-  },
-  imageContainer: {
-    width: "100%",
-    height: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 15,
-    overflow: "hidden",
-  },
-  image: {
-    width: "100%",
-    height: "100%",
-  },
-  paginationContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    marginTop: 10,
-  },
-  dot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    marginHorizontal: 5,
+    width: scale(50), // Using scale for width
+    height: verticalScale(50), // Using verticalScale for height
+    resizeMode: 'contain',
   },
   bottomSection: {
-    marginBottom: 32,
-  },
-  pageIndicatorContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    marginBottom: 50,
-  },
-  activeDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: "#800020",
-    marginHorizontal: 4,
-  },
-  inactiveDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: "#D1D5DB",
-    marginHorizontal: 4,
+    marginBottom: verticalScale(18), // Vertical scaling for margin bottom
   },
   googleButton: {
-    backgroundColor: "#800020",
-    paddingVertical: 18,
-    borderRadius: 28,
-    marginBottom: 16,
+    backgroundColor: '#800020',
+    paddingVertical: verticalScale(16), // Vertical scaling for padding
+    borderRadius: moderateScale(25), // Moderate scaling for border radius
+    marginBottom: verticalScale(12), // Vertical scaling for margin bottom
   },
   googleButtonText: {
-    color: "white",
-    textAlign: "center",
-    fontWeight: "600",
-  },
-  signUpText: {
-    color: "#800020",
-    textAlign: "center",
-    fontWeight: "600",
-    marginBottom: 16,
+    color: 'white',
+    textAlign: 'center',
+    fontWeight: '600',
+    fontSize: moderateScale(14), // Moderate scaling for font size
   },
   signInText: {
-    color: "#6B7280",
-    textAlign: "center",
+    color: '#6B7280',
+    textAlign: 'center',
+    fontSize: moderateScale(14), // Moderate scaling for font size
   },
   signInLink: {
-    color: "#800020",
-    fontWeight: "600",
+    color: '#800020',
+    fontWeight: '600',
+    fontSize: moderateScale(14), // Moderate scaling for font size
   },
 });

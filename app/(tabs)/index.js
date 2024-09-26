@@ -11,6 +11,7 @@ import { useRouter } from "expo-router";
 import { Feather } from "@expo/vector-icons";
 import SearchInput from "../../components/SearchInput";
 import { supabase } from "../../lib/supabase";
+import { verticalScale, scale, moderateScale } from "react-native-size-matters";
 
 export default function TabHome() {
   const logout = async () => {
@@ -44,10 +45,13 @@ export default function TabHome() {
           <Text> Environmental Laws</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.box}>
-          <Text>Property and Land Laws</Text>
+          <Text>Commercial and Business Laws</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.box}>
-          <Text>Property and Land Laws</Text>
+          <Text>Taxation Laws</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.box}>
+          <Text>Human Rights and Civil Liberties</Text>
         </TouchableOpacity>
       </View>
 
@@ -61,7 +65,7 @@ export default function TabHome() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    padding: moderateScale(20),
   },
   logout: {
     width: "100%",
@@ -78,22 +82,20 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     flexWrap: "wrap",
-    marginTop: 20,
-    padding: 3,
-    borderRadius: 5,
+    marginTop: scale(20),
+    padding: moderateScale(3),
+    borderRadius: moderateScale(5),
     backgroundColor: "#FAF9F6",
   },
 
   box: {
     backgroundColor: "#f0f0f0",
-    // width: 80,
-    // height: 80,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 5,
     borderWidth: 1,
     borderColor: "#D1D5DB",
     margin: 5,
-    padding: 10,
+    padding: scale(8),
   },
 });

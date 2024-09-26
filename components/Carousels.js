@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { StyleSheet, View, Image, Dimensions } from "react-native";
 import Carousel from "react-native-reanimated-carousel";
+import { verticalScale, scale, moderateScale } from "react-native-size-matters";
 
 export default function Carousels() {
   const width = Dimensions.get("window").width;
@@ -47,7 +48,7 @@ export default function Carousels() {
       <Carousel
         loop
         width={width}
-        height={width}
+        // height={width}
         autoPlay={true}
         data={list}
         scrollAnimationDuration={1000}
@@ -72,11 +73,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginVertical: 20, // Spacing around carousel
+    // marginVertical: 20, // Spacing around carousel
+    marginVertical: verticalScale(20),
    
   },
   imageContainer: {
-    padding: 15,
+    padding: moderateScale(15),
     width: "100%",
     height: "100%",
     justifyContent: "center",
@@ -91,12 +93,12 @@ const styles = StyleSheet.create({
   paginationContainer: {
     flexDirection: "row",
     justifyContent: "center",
-    marginTop: 10,
+    marginTop: verticalScale(10),
   },
   dot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    marginHorizontal: 5,
+    width: scale(8),
+    height: scale(8),
+    borderRadius: moderateScale(4),
+    marginHorizontal: scale(5),
   },
 });
