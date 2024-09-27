@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
   },
   logout: {
     width: "100%",
-    padding: 20,
+    padding: scale(20),
     marginTop: 20,
     justifyContent: "center",
     alignItems: "center",
