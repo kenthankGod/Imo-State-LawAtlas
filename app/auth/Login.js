@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import { supabase } from "../../lib/supabase";
 import { Feather } from "@expo/vector-icons";
+import { moderateScale, scale, verticalScale } from "react-native-size-matters";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -67,6 +68,7 @@ export default function Login() {
           Please sign in to continue{" "}
           <Text style={styles.loginTextAtlas}>LawAtlas</Text>
         </Text>
+        
         <View style={styles.errorContainer}>
           {errorMessage ? (
             <Text style={styles.errorText}>{errorMessage}</Text>
@@ -118,33 +120,30 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "white",
+    padding: moderateScale(20),
   },
   header: {
     flexDirection: "row",
     justifyContent: "flex-start",
     alignItems: "flex-start",
-    padding: 10,
-    paddingTop: Platform.OS === "ios" ? 40 : 30,
+    marginTop: moderateScale(10),
   },
   backButton: {
-    padding: 10,
+    padding: scale(10),
   },
   mainContent: {
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    padding: 20,
   },
   imageContainer: {
-    marginBottom: 20,
-    // backgroundColor: "red"
+    marginBottom: moderateScale(20),
   },
   image: {
-    width: 200,
-    height: 200,
+    width: scale(150),
+    height: moderateScale(150),
   },
   loginText: {
-    fontSize: 15,
+    fontSize: moderateScale(15),
     fontWeight: "bold",
     color: "#6B7280",
   },
@@ -153,10 +152,10 @@ const styles = StyleSheet.create({
   },
   input: {
     width: "100%",
-    maxWidth: 400,
-    padding: 10,
-    paddingLeft: 20,
-    margin: 10,
+    // maxWidth: 400,
+    padding: scale(10),
+    paddingLeft: scale(24),
+    margin: scale(5),
     borderRadius: 28,
     borderWidth: 1,
     borderColor: "#d9d9d9",
@@ -165,9 +164,10 @@ const styles = StyleSheet.create({
   button: {
     width: "100%",
     backgroundColor: "#800020",
-    paddingVertical: 18,
+    paddingVertical: moderateScale(18),
     borderRadius: 2,
-    marginBottom: 16,
+    marginTop: scale(5),
+    marginBottom: scale(16),
     borderRadius: 28,
   },
   buttonDisabled: {
@@ -184,12 +184,12 @@ const styles = StyleSheet.create({
     color: "#800020",
   },
   errorContainer: {
-    margin: 10,
+    margin: scale(10),
     width: "100%",
   },
   errorText: {
     backgroundColor: "#FFBABA",
-    padding: 15,
+    padding: scale(15),
     borderRadius: 2,
     color: "#D8000C",
     textAlign: "center",
