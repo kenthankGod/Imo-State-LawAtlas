@@ -6,6 +6,29 @@ import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabase";
 
 export default function RootLayout() {
+  const [fontIsLoaded] = useFonts({
+    "Montserrat-Bold": require("../assets/fonts/Montserrat-Bold.ttf"),
+    "Montserrat-Regular": require("../assets/fonts/Montserrat-Regular.ttf"),
+    "Montserrat-Light": require("../assets/fonts/Montserrat-Light.ttf"),
+  });
+
+  useEffect(() => {
+    async function prepare() {
+      await SplashScreen.preventAutoHideAsync();
+    }
+    prepare();
+  }, []);
+
+  if (!fontIsLoaded) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  } else {
+    SplashScreen.hideAsync();
+  }
+
   return (
     <AuthProvider>
       <MainLayout />

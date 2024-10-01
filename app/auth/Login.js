@@ -58,17 +58,17 @@ export default function Login() {
       <View style={styles.mainContent}>
         <View style={styles.imageContainer}>
           <Image
-            source={require("../../assets/images/coatbg.png")}
+            source={require("../../assets/images/imobg.png")}
             style={styles.image}
             resizeMode="contain"
           />
         </View>
 
         <Text style={styles.loginText}>
-          Please sign in to continue{" "}
+          Sign in to continue{" "}
           <Text style={styles.loginTextAtlas}>LawAtlas</Text>
         </Text>
-        
+
         <View style={styles.errorContainer}>
           {errorMessage ? (
             <Text style={styles.errorText}>{errorMessage}</Text>
@@ -101,7 +101,7 @@ export default function Login() {
           </Text>
         </TouchableOpacity>
         <View style={styles.accountsTextContainer}>
-          <Text>
+          <Text style={{ fontFamily: "Montserrat-Bold" }}>
             Don't have an account?{"  "}
             <Text
               style={styles.accountsText}
@@ -121,12 +121,14 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "white",
     padding: moderateScale(20),
+    fontFamily: "Montserrat-Bold",
   },
   header: {
     flexDirection: "row",
     justifyContent: "flex-start",
     alignItems: "flex-start",
     marginTop: moderateScale(10),
+    fontFamily: "Montserrat-Bold",
   },
   backButton: {
     padding: scale(10),
@@ -139,16 +141,18 @@ const styles = StyleSheet.create({
     marginBottom: moderateScale(20),
   },
   image: {
-    width: scale(150),
+    width: scale(100),
     height: moderateScale(150),
   },
   loginText: {
     fontSize: moderateScale(15),
-    fontWeight: "bold",
     color: "#6B7280",
+    fontFamily: "Montserrat-Bold",
+    paddingTop: scale(10),
   },
   loginTextAtlas: {
     color: "#800020",
+    fontFamily: "Montserrat-Bold",
   },
   input: {
     width: "100%",
@@ -160,6 +164,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#d9d9d9",
     backgroundColor: "#D1D5DB",
+    fontFamily: "Montserrat-Regular",
   },
   button: {
     width: "100%",
@@ -177,11 +182,11 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "white",
     textAlign: "center",
-    fontWeight: "600",
+    fontFamily: "Montserrat-Bold",
   },
   accountsText: {
-    fontWeight: "bold",
     color: "#800020",
+    fontFamily: "Montserrat-Bold",
   },
   errorContainer: {
     margin: scale(10),

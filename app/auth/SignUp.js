@@ -71,14 +71,14 @@ export default function SignUp() {
       <View style={styles.mainContent}>
         <View style={styles.imageContainer}>
           <Image
-            source={require("../../assets/images/coatbg.png")}
+            source={require("../../assets/images/imobg.png")}
             style={styles.image}
             resizeMode="contain"
           />
         </View>
 
         <Text style={styles.signupText}>
-          Please create an account to continue{" "}
+          Create an account to continue{" "}
           <Text style={styles.signupTextAtlas}>LawAtlas</Text>
         </Text>
         <View style={styles.errorContainer}>
@@ -128,8 +128,8 @@ export default function SignUp() {
           </Text>
         </TouchableOpacity>
         <View style={styles.accountsTextContainer}>
-          <Text>
-            Already have an accoubn?{"  "}
+          <Text style={{ fontFamily: "Montserrat-Bold" }}>
+            Already have an account?{"  "}
             <Text
               style={styles.accountsText}
               onPress={() => router.push("auth/Login")}
@@ -166,16 +166,18 @@ const styles = StyleSheet.create({
     // marginBottom: moderateScale(20),
   },
   image: {
-    width: scale(150),
+    width: scale(100),
     height: moderateScale(150),
   },
   signupText: {
     fontSize: moderateScale(15),
-    fontWeight: "bold",
+    fontFamily: "Montserrat-Bold",
     color: "#6B7280",
+    paddingTop: scale(10),
   },
   signupTextAtlas: {
     color: "#800020",
+    fontFamily: "Montserrat-Bold",
   },
   input: {
     width: "100%",
@@ -187,6 +189,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#d9d9d9",
     backgroundColor: "#D1D5DB",
+    fontFamily: "Montserrat-Light",
   },
   button: {
     width: "100%",
@@ -204,10 +207,10 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "white",
     textAlign: "center",
-    fontWeight: "600",
+    fontFamily: "Montserrat-Bold",
   },
   accountsText: {
-    fontWeight: "bold",
+    fontFamily: "Montserrat-Bold",
     color: "#800020",
   },
   errorContainer: {
@@ -220,6 +223,7 @@ const styles = StyleSheet.create({
     borderRadius: 2,
     color: "#D8000C",
     textAlign: "center",
+    fontFamily: "Montserrat-Bold",
   },
   successContainer: {
     margin: 10,

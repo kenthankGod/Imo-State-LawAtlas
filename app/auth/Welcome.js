@@ -21,27 +21,31 @@ export default function Welcome() {
         <Text style={styles.title}>
           All Imo Sate law you need {"\n"} at one place
         </Text>
-        <Text style={styles.subtitle}>
-          Eastern Heartland.
-        </Text>
+        <Text style={styles.subtitle}>Eastern Heartland.</Text>
       </View>
 
       <Carousels />
 
       <View style={styles.bottomSection}>
         <TouchableOpacity
-          style={styles.googleButton}
+          style={styles.signInButton}
           onPress={() => router.push("/auth/Login")}
         >
-          <Text style={styles.googleButtonText}>Sign In</Text>
+          <Text style={styles.signInButtonText}>Sign In</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.signUpButton}
+          onPress={() => router.push("/auth/SignUp")}
+        >
+          <Text style={styles.signUpButtonText}>Sign Up</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => router.push("/auth/Login")}>
+        {/* <TouchableOpacity onPress={() => router.push("/auth/Login")}>
           <Text style={styles.signInText}>
             Already have an account?{" "}
             <Text style={styles.signInLink}>Sign in</Text>
           </Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </View>
   );
@@ -50,55 +54,77 @@ export default function Welcome() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
-    padding: moderateScale(20), // Using moderateScale for padding
-    justifyContent: 'space-between',
+    backgroundColor: "white",
+    padding: moderateScale(20),
+    justifyContent: "space-between",
   },
   topSection: {
-    marginTop: verticalScale(20), // Vertical scaling for margin top
+    marginTop: verticalScale(20),
   },
   title: {
-    fontSize: moderateScale(22), // Moderate scaling for font size
-    fontWeight: 'bold',
-    marginBottom: verticalScale(6), // Vertical scaling for margin bottom
-    textAlign: 'center',
+    fontSize: moderateScale(22),
+    // fontWeight: "bold",
+    marginBottom: verticalScale(6),
+    textAlign: "center",
+    fontFamily: "Montserrat-Bold",
   },
   subtitle: {
-    fontSize: moderateScale(16), // Moderate scaling for subtitle font size
-    color: 'gray',
-    textAlign: 'center',
+    fontSize: moderateScale(16),
+    color: "gray",
+    textAlign: "center",
+    fontFamily: "Montserrat-Bold",
   },
   logoContainer: {
-    alignItems: 'center',
+    alignItems: "center",
   },
   logo: {
-    width: scale(50), // Using scale for width
-    height: verticalScale(50), // Using verticalScale for height
-    resizeMode: 'contain',
+    width: scale(50),
+    height: verticalScale(50),
+    resizeMode: "contain",
   },
   bottomSection: {
-    marginBottom: verticalScale(18), // Vertical scaling for margin bottom
+    marginBottom: verticalScale(18),
   },
-  googleButton: {
-    backgroundColor: '#800020',
-    paddingVertical: verticalScale(16), // Vertical scaling for padding
-    borderRadius: moderateScale(25), // Moderate scaling for border radius
-    marginBottom: verticalScale(12), // Vertical scaling for margin bottom
+  signInButton: {
+    backgroundColor: "#800020",
+    paddingVertical: verticalScale(16),
+    borderRadius: moderateScale(25),
+    marginBottom: verticalScale(12),
   },
-  googleButtonText: {
-    color: 'white',
-    textAlign: 'center',
-    fontWeight: '600',
-    fontSize: moderateScale(14), // Moderate scaling for font size
+  signInButtonText: {
+    color: "white",
+    textAlign: "center",
+    fontWeight: "600",
+    fontSize: moderateScale(14),
+    fontFamily: "Montserrat-Bold",
   },
   signInText: {
-    color: '#6B7280',
-    textAlign: 'center',
-    fontSize: moderateScale(14), // Moderate scaling for font size
+    color: "#6B7280",
+    textAlign: "center",
+    fontSize: moderateScale(14),
+    fontFamily: "Montserrat-Regular",
   },
   signInLink: {
-    color: '#800020',
-    fontWeight: '600',
-    fontSize: moderateScale(14), // Moderate scaling for font size
+    color: "#800020",
+    fontWeight: "600",
+    fontSize: moderateScale(14),
+    fontFamily: "Montserrat-Bold",
   },
+
+  signUpButton: {
+    backgroundColor: "#f5f5f5",
+    borderColor: "#800020",
+    borderWidth: 0.9,
+    paddingVertical: verticalScale(16),
+    borderRadius: moderateScale(25),
+    marginBottom: verticalScale(12),
+  },
+
+  signUpButtonText:{
+    color: "black",
+    textAlign: "center",
+    fontSize: moderateScale(14),
+    fontFamily: "Montserrat-Bold",
+    color: "#800020"
+  }
 });
